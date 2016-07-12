@@ -24,7 +24,6 @@
   (if (or (empty? coll) (= 1 (count coll)))
     coll
     (let [[l1 l2] (split-at (/ (count coll) 2) coll)]
-      (println "l1 " l1 "l2 " l2)
       (loop [r [] l1 (merge-sort l1) l2 (merge-sort l2)]
         (cond (empty? l1) (into r l2)
               (empty? l2) (into r l1)
@@ -62,6 +61,21 @@
 ;; data structures
 
 ;; sudo linked-list
+
+(defrecord listNode [elem pointer])
+
+(defn linked-insert [list value]
+  (cond
+    (nil? list) (listNode value nil)
+    :else (listNode value list)))
+
+(defn linked-remove [list]
+  (:pointer list))
+
+(defn list-count [list]
+  (if list
+    (+ 1 (list-count (:pointer list)))
+    0))
 
 (def my-linked-list (atom '(5 4 3 2 1)))
 (first @my-linked-list)
