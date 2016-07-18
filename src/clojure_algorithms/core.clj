@@ -162,3 +162,18 @@
      (or (< elem min) (> elem max)) false
      :else (and (bst? left min (dec elem))
                 (bst? right (inc elem) max)))))
+
+;; memoize
+
+(defn slow [x]
+  (float x))
+
+(def input-output (atom {}))
+
+(defn fast [x]
+  (if (contains? @input-output x)
+    (get @input-output x)
+    (do
+      (let [res (slow x)]
+        (swap! input-output conj (hash-map x res))
+        res))))
